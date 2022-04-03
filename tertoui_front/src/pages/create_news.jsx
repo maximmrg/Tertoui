@@ -44,7 +44,7 @@ export class NewsForm extends Component {
     }
 
     render () {
-        return <div className='container'>
+        return <div className='container App'>
             <h1>Votre Actualité</h1>
             <Field name="titre" value={this.state.titre} onChange={this.handleChange}>Titre</Field>
             <TextAreaField name="article" value={this.state.article} onChange={this.handleChange}>Article</TextAreaField>

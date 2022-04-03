@@ -1,18 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import {NewsForm} from './pages/create_news';
 import {LoginPage} from './pages/connection';
+import {NewsForm} from './pages/create_news';
+import { Component } from 'react';
+import { BrowserRouter, Router, Route, Routes} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import Index from './pages/index';
 
-function App() {
+class App extends Component {
+  render() {
   return (
-    <div className="App">
-      <h1>Tertoui</h1>
-
-      <h3>LE site d'actualité</h3>
-      <LoginPage/>
-    </div>
+    <>
+      <Routes>
+        <Route path='/' element={<Index/>}></Route>
+        <Route path='/news_form' element={<NewsForm/>}></Route>
+        <Route path='/login' element={<LoginPage/>}></Route>
+      </Routes>
+    </>
   );
+  }
 }
 
 export default App;

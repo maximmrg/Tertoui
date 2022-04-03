@@ -37,7 +37,7 @@ export class LoginPage extends Component {
     }
 
     render() {
-        return <div className='container border border-primary rounded mt-5 p-3'>
+        return <div className='container border border-primary rounded mt-5 p-3 App'>
             <form onSubmit={this.handleSubmit}>
             <h1>Se connecter</h1>
             <Field name="login" value={this.state.login} onChange={this.handleChange} type='text'>Login</Field>
