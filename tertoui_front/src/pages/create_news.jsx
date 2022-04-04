@@ -49,7 +49,6 @@ export class NewsForm extends Component {
         e.preventDefault();
         const data = JSON.stringify(this.state)
         console.log(data)
-        UserProfile.reset();
     }
 
     render () {

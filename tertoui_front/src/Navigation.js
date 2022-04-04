@@ -67,12 +67,20 @@ class NavBarPublic extends Component {
     }
 }
 
- 
 
 class Navigation extends Component {
+
+    constructor() {
+        super()
+
+        this.state = {
+            loggedIn : false
+        }
+    }
+
     render(){
     return <>
-            {UserProfile.getIsSessionCurrent() ? <NavBarLoggedIn/> : <NavBarPublic/>}
+            {UserProfile.getIsActive() ? <NavBarLoggedIn/> : <NavBarPublic/>}
         </>
     }
 };

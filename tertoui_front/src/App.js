@@ -11,28 +11,11 @@ import { ListNews } from './pages/list_news';
 import Navigation from './Navigation';
 import UserProfile from './UserProfile';
 
-class App extends Component {
+function App()  {
 
-  constructor(props){
-    super(props);
-  }
-
-  login = () => {
-    UserProfile.createSession();
-    this.setState({isLog: true});
-  }
-
-  logout = () => {
-      UserProfile.reset();
-      this.setState({isLog: false});
-  }
-
-  render() {
-    const isLog = UserProfile.getIsSessionCurrent();
-    console.log(isLog);
   return (
     <>
-    <Navigation isLoggedIn={true}/>
+    <Navigation/>
 
       <Routes>
         <Route path='/' element={<Index/>}></Route>
@@ -42,7 +25,7 @@ class App extends Component {
       </Routes>
     </>
   );
-  }
+  
 }
 
 export default App;
