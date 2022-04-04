@@ -1,5 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
+import UserProfile from '../UserProfile';
+import Navigation from '../Navigation.js';
 
 class Field extends Component {
     render() {
@@ -14,15 +16,18 @@ class Field extends Component {
 export class LoginPage extends Component {
 
     constructor (props) {
+
+
         super(props)
         this.state = {
             login: '',
-            password: ''
+            password: '',
         }
         this.handleChange= this.handleChange.bind(this)
         this.handleSubmit= this.handleSubmit.bind(this)
     }
 
+    
     handleChange (e) {
         const name = e.target.name
         this.setState({
@@ -34,6 +39,8 @@ export class LoginPage extends Component {
         e.preventDefault();
         const data = JSON.stringify(this.state)
         console.log(data)
+        UserProfile.setPseudo(this.state.login)
+        UserProfile.createSession();
     }
 
     render() {
