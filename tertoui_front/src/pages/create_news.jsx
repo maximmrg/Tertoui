@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import ReactDOM from 'react-dom'
+import UserProfile from '../UserProfile'
 
 
 class Field extends Component {
@@ -30,9 +31,11 @@ export class NewsForm extends Component {
         super(props)
         this.state = {
             titre: '',
-            article: ''
+            article: '',
+            author: UserProfile.getPseudo(),
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit= this.handleSubmit.bind(this)
     }
 
     handleChange (e) {
@@ -43,11 +46,23 @@ export class NewsForm extends Component {
         })
     }
 
+    handleSubmit (e) {
+        e.preventDefault();
+        const data = JSON.stringify(this.state)
+        console.log(data)
+        UserProfile.reset();
+    }
+
     render () {
         return <div className='container App'>
+            <form onSubmit={this.handleSubmit}>
             <h1>Votre Actualité</h1>
             <Field name="titre" value={this.state.titre} onChange={this.handleChange}>Titre</Field>
             <TextAreaField name="article" value={this.state.article} onChange={this.handleChange}>Article</TextAreaField>
+            <div className='form-group'>
+                <button className='btn btn-primary'>Publier</button>
+            </div>
+            </form>
         </div>
     }
 }
