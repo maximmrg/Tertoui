@@ -1,17 +1,22 @@
 var UserProfile = (function() {
-    var isSessionCurrent = false;
+    var isActive = false;
 
     var email = "";
     var pseudo = "";
     var token = "";
 
-    var getIsSessionCurrent = function(){
-        return isSessionCurrent;
+    var getIsActive = function(){
+        return isActive;
     };
 
+    var setIsActive = function(session){
+        isActive = session;
+    };
+
+    //Initialize a session
     var createSession = function(){
-        isSessionCurrent = true;
-    }
+        isActive = true;
+    };
 
     var getMail = function(){
         return email;
@@ -20,7 +25,6 @@ var UserProfile = (function() {
     var setMail = function(mail_param){
         email = mail_param;
     };
-
 
     var getPseudo = function(){
         return pseudo;
@@ -38,11 +42,12 @@ var UserProfile = (function() {
         token = token_param;
     };
 
+    //Reset the session and the user's info
     var reset = function(){
         email = '';
         pseudo = '';
         token = '';
-        isSessionCurrent = false;
+        isActive = false;
     };
 
     return{
@@ -52,9 +57,10 @@ var UserProfile = (function() {
         setPseudo: setPseudo,
         getToken: getToken,
         setToken: setToken,
-        getIsSessionCurrent: getIsSessionCurrent,
+        getIsActive: getIsActive,
         reset: reset,
         createSession: createSession,
+        setIsActive: setIsActive,
     }
 
 }) ();

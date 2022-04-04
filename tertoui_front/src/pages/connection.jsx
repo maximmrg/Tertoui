@@ -39,8 +39,8 @@ export class LoginPage extends Component {
         e.preventDefault();
         const data = JSON.stringify(this.state)
         console.log(data)
-        UserProfile.setPseudo(this.state.login)
         UserProfile.createSession();
+        UserProfile.setPseudo(this.state.login)
     }
 
     render() {
