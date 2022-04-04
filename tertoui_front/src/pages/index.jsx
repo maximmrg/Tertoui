@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Component } from 'react';
-
+import NewsCarousel from '../components/NewsCarousel';
 
 export class Index extends Component {
 
@@ -15,7 +15,8 @@ export class Index extends Component {
             <Link to='/news_form'>Créer une news</Link>
             <br/>
             <Link to='/news'>News</Link>
-        </div>
+            <NewsCarousel/>
+        </div> 
     }
 };
 
