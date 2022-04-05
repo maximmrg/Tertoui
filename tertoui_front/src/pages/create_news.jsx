@@ -7,7 +7,7 @@ class Field extends Component {
 
     render () {
         const {name, value, onChange} = this.props
-        return <div className="form-group">
+        return <div className="form-group mt-3">
             <label htmlFor={name}>Titre</label>
             <input type="text" value={value} onChange={onChange} id={name} name={name} className="form-control"/>
         </div>
@@ -17,7 +17,7 @@ class Field extends Component {
 class TextAreaField extends Component {
     render () {
         const {name, value, onChange, children} = this.props
-        return <div className="form-group">
+        return <div className="form-group mt-3">
             <label htmlFor={name}>{children}</label>
             <textarea type="text" value={value} onChange={onChange} id={name} name={name} className="form-control"/>
         </div>
@@ -26,22 +26,34 @@ class TextAreaField extends Component {
 
 export class NewsForm extends Component {
 
+    
+
     constructor (props) {
         super(props)
         this.state = {
             titre: '',
             article: '',
             author: UserProfile.getPseudo(),
-        }
+            themes: [{id: 1, name: 'Politique'}, {id: 2, name: 'Economie'}, {id: 3, name: 'Guerre'}],
+            theme: ''
+        };
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit= this.handleSubmit.bind(this)
+        this.handleSelectThemeChange = this.handleSelectThemeChange.bind(this)
     }
 
     handleChange (e) {
         console.log(e)
         const name = e.target.name
         this.setState({
-            [name]: e.target.value
+            [name]: e.target.value,
+            theme: e.target.value
+        })
+    }
+
+    handleSelectThemeChange (e) {
+        this.setState({
+            theme: e.target.value
         })
     }
 
@@ -52,12 +64,27 @@ export class NewsForm extends Component {
     }
 
     render () {
-        return <div className='container App'>
+        
+        return <div className='container App bg-light mt-3 border rounded p-3 border-info'>
             <form onSubmit={this.handleSubmit}>
-            <h1>Votre Actualité</h1>
+            <h1>Votre article</h1>
             <Field name="titre" value={this.state.titre} onChange={this.handleChange}>Titre</Field>
+
             <TextAreaField name="article" value={this.state.article} onChange={this.handleChange}>Article</TextAreaField>
-            <div className='form-group'>
+
+            <div className='row m-3'>
+            <div className='col-1 mt-2'>
+                Sujet : 
+                </div>
+                <div className='col-3'>
+                <select className='form-select' name={this.state.theme} id={this.state.theme} onChange={this.handleSelectThemeChange}>{
+                    this.state.themes?.map( (item, i) =>
+                    <option key={item.id} value={item.id}>{item.name}</option>)
+                }
+                </select>
+                </div>
+            </div>
+            <div className='form-group mt-3'>
                 <button className='btn btn-primary'>Publier</button>
             </div>
             </form>

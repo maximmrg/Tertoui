@@ -12,6 +12,8 @@ export class Index extends Component {
             <h3>LE site d'actualité</h3>
             <Link to='/login'>Se connecter</Link>
             <br />
+            <Link to='/logon'>Créer compte</Link>
+            <br />
             <Link to='/news_form'>Créer une news</Link>
             <br/>
             <Link to='/news'>News</Link>
