@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import UserProfile from '../UserProfile';
 import Navigation from '../Navigation.js';
+import Cookies from 'universal-cookie';
 
 class Field extends Component {
     render() {
@@ -39,8 +40,8 @@ export class LoginPage extends Component {
         e.preventDefault();
         const data = JSON.stringify(this.state)
         console.log(data)
-        UserProfile.createSession();
-        UserProfile.setPseudo(this.state.login)
+        UserProfile.createSession('', this.state.login, this.state.login);
+              
         this.props.login();
     }
 

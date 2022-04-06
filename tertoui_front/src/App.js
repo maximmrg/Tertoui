@@ -11,16 +11,29 @@ import { ListNews } from './pages/list_news';
 import Navigation from './Navigation';
 import UserProfile from './UserProfile';
 import { CreateAccount } from './pages/create_account';
+import Cookies from 'universal-cookie';
+import { PrivateRoute } from './components/PrivateRoute';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
 
+    const cookies = new Cookies();
+
+
+
     this.state = {
-      isLoggedIn: false,
-      pseudo: '',
+      isLoggedIn: cookies.get('isActive'),
+      pseudo: cookies.get('login'),
     };
+  }
+
+  componentDidMount(){
+    const cookies = new Cookies();
+
+    UserProfile.setPseudo(cookies.get('login'));
+    console.log(cookies.get('login'));
   }
 
     login = () => {
@@ -40,7 +53,12 @@ class App extends Component {
 
       <Routes>
         <Route path='/' element={<Index/>}></Route>
-        <Route path='/news_form' element={<NewsForm/>}></Route>
+        <Route path='/news_form' element={
+            <PrivateRoute>
+              <NewsForm/>
+            </PrivateRoute>
+          }>
+        </Route>
         <Route path='/news' element={<ListNews/>}></Route>
         <Route path='/login' element={<LoginPage login={this.login.bind(this)}/>}></Route>
         <Route path='/logon' element={<CreateAccount/>}></Route>

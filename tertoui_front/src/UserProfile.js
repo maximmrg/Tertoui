@@ -1,3 +1,5 @@
+import Cookies from 'universal-cookie';
+
 var UserProfile = (function() {
     var isActive = false;
 
@@ -14,8 +16,16 @@ var UserProfile = (function() {
     };
 
     //Initialize a session
-    var createSession = function(){
+    var createSession = function(mail_param, pseudo_param, token_param){
         isActive = true;
+        email = mail_param;
+        pseudo = pseudo_param;
+        token = token_param;
+
+        const cookies = new Cookies()
+        cookies.set('isActive', true, { path: '/' });
+        cookies.set('login', pseudo, { path: '/' });
+        cookies.set('pseudo', pseudo, { path: '/' });
     };
 
     var getMail = function(){
@@ -48,6 +58,11 @@ var UserProfile = (function() {
         pseudo = '';
         token = '';
         isActive = false;
+        
+        const cookies = new Cookies()
+        cookies.remove('isActive');
+        cookies.remove('login');
+        cookies.remove('pseudo');
     };
 
     return{
