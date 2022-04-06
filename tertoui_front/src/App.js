@@ -11,29 +11,43 @@ import { ListNews } from './pages/list_news';
 import Navigation from './Navigation';
 import UserProfile from './UserProfile';
 import { CreateAccount } from './pages/create_account';
-import Cookies from 'universal-cookie';
+import {ReactSession} from 'react-client-session';
+
+// import Cookies from 'universal-cookie';
 import { PrivateRoute } from './components/PrivateRoute';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
+    ReactSession.setStoreType("localStorage");
 
-    const cookies = new Cookies();
-
-
+    try {
+      ReactSession.get('login');
+      ReactSession.get('isActive');
+      ReactSession.get('pseudo');
+    } catch (e) {
+      
+    ReactSession.set('login', '');
+    ReactSession.set('pseudo', '');
+    ReactSession.set('isActive', false);
+    }
 
     this.state = {
-      isLoggedIn: cookies.get('isActive'),
-      pseudo: cookies.get('login'),
+      isLoggedIn: false,
+      pseudo: '',
     };
   }
 
   componentDidMount(){
-    const cookies = new Cookies();
+    ReactSession.setStoreType("localStorage");
 
-    UserProfile.setPseudo(cookies.get('login'));
-    console.log(cookies.get('login'));
+    this.setState({ 
+      isLoggedIn: ReactSession.get('isActive'),
+      pseudo: ReactSession.get('pseudo')
+    })
+    
+    UserProfile.setPseudo(ReactSession.get('login'));
   }
 
     login = () => {
@@ -46,10 +60,8 @@ class App extends Component {
     };
 
   render(){
-    const isLoggedIn = this.state.isLoggedIn;
-    const pseudo = this.state.pseudo;
   return <>
-    <Navigation isLoggedIn={isLoggedIn} logout={this.logout.bind(this)} pseudo={pseudo}/>
+    <Navigation isLoggedIn={this.state.isLoggedIn} logout={this.logout.bind(this)} pseudo={this.state.pseudo}/>
 
       <Routes>
         <Route path='/' element={<Index/>}></Route>
