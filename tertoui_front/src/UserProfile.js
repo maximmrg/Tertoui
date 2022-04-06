@@ -1,6 +1,9 @@
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
+
+import {ReactSession} from 'react-client-session';
 
 var UserProfile = (function() {
+    ReactSession.setStoreType("Cookie");
     var isActive = false;
 
     var email = "";
@@ -22,10 +25,9 @@ var UserProfile = (function() {
         pseudo = pseudo_param;
         token = token_param;
 
-        const cookies = new Cookies()
-        cookies.set('isActive', true, { path: '/' });
-        cookies.set('login', pseudo, { path: '/' });
-        cookies.set('pseudo', pseudo, { path: '/' });
+        ReactSession.set("login", pseudo);
+        ReactSession.set("pseudo", pseudo);
+        ReactSession.set("isActive", true);
     };
 
     var getMail = function(){
@@ -59,10 +61,9 @@ var UserProfile = (function() {
         token = '';
         isActive = false;
         
-        const cookies = new Cookies()
-        cookies.remove('isActive');
-        cookies.remove('login');
-        cookies.remove('pseudo');
+        ReactSession.remove("isActive");
+        ReactSession.remove("login");
+        ReactSession.remove("pseudo");
     };
 
     return{

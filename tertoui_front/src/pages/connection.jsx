@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import UserProfile from '../UserProfile';
 import Navigation from '../Navigation.js';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
 class Field extends Component {
     render() {
