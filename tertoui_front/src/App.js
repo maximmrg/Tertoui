@@ -48,6 +48,7 @@ class App extends Component {
     })
     
     UserProfile.setPseudo(ReactSession.get('login'));
+    UserProfile.setIsActive(ReactSession.get('isActive'))
   }
 
     login = () => {
