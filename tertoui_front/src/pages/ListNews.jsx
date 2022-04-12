@@ -1,8 +1,5 @@
-import React from 'react';
-import {Component} from 'react';
+import React, {Component} from 'react';
 import { News } from '../components/NewsComponent';
-import UserProfile from '../UserProfile';
-
 
 export class ListNews extends Component {
     constructor (props) {
@@ -25,7 +22,6 @@ export class ListNews extends Component {
         return <div className='container App'>
             <News title="Article 1" author="Paul" date={this.state.date}>
                 Ceci est l'article n°1
-                {UserProfile.getIsActive() ? "hey" : "gow"}
             </News>
 
             <News title="Covid" author="Jean" date={this.state.date}>

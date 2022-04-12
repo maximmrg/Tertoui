@@ -1,4 +1,4 @@
-import React, { ReactFragment } from 'react';
+import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 
 function NewsCarousel() {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Component } from 'react';
-import UserProfile from '../UserProfile'
 
 
 class Field extends Component {
@@ -33,7 +32,7 @@ export class NewsForm extends Component {
         this.state = {
             titre: '',
             article: '',
-            author: UserProfile.getPseudo(),
+            // author: 
             themes: [{id: 1, name: 'Politique'}, {id: 2, name: 'Economie'}, {id: 3, name: 'Guerre'}],
             theme: ''
         };

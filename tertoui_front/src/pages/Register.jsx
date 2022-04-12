@@ -2,7 +2,7 @@ import { Component } from "react";
 import { FieldComponent } from "../components/FieldComponent";
 
 export class CreateAccount extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = {
             pseudo: '',
@@ -11,24 +11,24 @@ export class CreateAccount extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit= this.handleSubmit.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
 
     }
 
-    handleChange (e) {
+    handleChange(e) {
         const name = e.target.name
         this.setState({
             [name]: e.target.value,
         })
     }
 
-    handleSubmit (e){
+    handleSubmit(e) {
         e.preventDefault();
         const data = JSON.stringify(this.state)
         console.log(data)
     }
 
-    render(){
+    render() {
         return <div className="container border rounder mt-5 p-3 bg-light App">
             <form onSubmit={this.handleSubmit}>
                 <h1>Create account</h1>

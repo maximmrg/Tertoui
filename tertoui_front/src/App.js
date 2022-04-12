@@ -1,84 +1,24 @@
-import logo from './logo.svg';
+
 import './App.css';
-import React from 'react';
-import {LoginPage} from './pages/connection';
-import {NewsForm} from './pages/create_news';
-import { Component } from 'react';
-import { BrowserRouter, Router, Route, Routes} from 'react-router-dom';
-import {Link} from 'react-router-dom';
-import Index from './pages/index';
-import { ListNews } from './pages/list_news';
-import Navigation from './Navigation';
-import UserProfile from './UserProfile';
-import { CreateAccount } from './pages/create_account';
-import {ReactSession} from 'react-client-session';
+import React, { useMemo, useState } from 'react';
 
-// import Cookies from 'universal-cookie';
-import { PrivateRoute } from './components/PrivateRoute';
+import { hasAuthenticated } from './services/AuthAPI';
+import Auth from './contexts/Auth';
+import NavBar from './components/NavBar';
 
-class App extends Component {
 
-  constructor(props) {
-    super(props);
-    ReactSession.setStoreType("localStorage");
+function App() {
+  const [isAuth, setIsAuth] = useState(hasAuthenticated());
+  const value = useMemo(() => ({isAuth, setIsAuth}, [isAuth, setIsAuth]));
 
-    try {
-      ReactSession.get('login');
-      ReactSession.get('isActive');
-      ReactSession.get('pseudo');
-    } catch (e) {
-      
-    ReactSession.set('login', '');
-    ReactSession.set('pseudo', '');
-    ReactSession.set('isActive', false);
-    }
-
-    this.state = {
-      isLoggedIn: false,
-      pseudo: '',
-    };
-  }
-
-  componentDidMount(){
-    ReactSession.setStoreType("localStorage");
-
-    this.setState({ 
-      isLoggedIn: ReactSession.get('isActive'),
-      pseudo: ReactSession.get('pseudo')
-    })
-    
-    UserProfile.setPseudo(ReactSession.get('login'));
-    UserProfile.setIsActive(ReactSession.get('isActive'))
-  }
-
-    login = () => {
-      this.setState({ isLoggedIn: true, pseudo: UserProfile.getPseudo(), });
-    };
-  
-    logout = () => {
-      UserProfile.reset();
-      this.setState({ isLoggedIn: false });
-    };
-
-  render(){
-  return <>
-    <Navigation isLoggedIn={this.state.isLoggedIn} logout={this.logout.bind(this)} pseudo={this.state.pseudo}/>
-
-      <Routes>
-        <Route path='/' element={<Index/>}></Route>
-        <Route path='/news_form' element={
-            <PrivateRoute>
-              <NewsForm/>
-            </PrivateRoute>
-          }>
-        </Route>
-        <Route path='/news' element={<ListNews/>}></Route>
-        <Route path='/login' element={<LoginPage login={this.login.bind(this)}/>}></Route>
-        <Route path='/logon' element={<CreateAccount/>}></Route>
-      </Routes>
-    </>
-  }
-  
+  return (
+    <Auth.Provider value={value}>
+      <pre>{JSON.stringify(isAuth)}</pre>
+        <div className="container-fluid">
+          <NavBar />
+          </div>
+    </Auth.Provider>
+  );
 }
 
 export default App;
