@@ -37,6 +37,22 @@ class App extends Component {
       isLoggedIn: false,
       pseudo: '',
     };
+
+    
+  }
+
+  makeAPICall() {
+    try {
+      const axios = require('axios').default;
+      axios.get('http://localhost:5000/api')
+      .then(res => {
+        console.log(res)
+      });
+
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   componentDidMount(){
@@ -48,7 +64,9 @@ class App extends Component {
     })
     
     UserProfile.setPseudo(ReactSession.get('login'));
-    UserProfile.setIsActive(ReactSession.get('isActive'))
+    UserProfile.setIsActive(ReactSession.get('isActive'));
+
+    //this.makeAPICall();
   }
 
     login = () => {

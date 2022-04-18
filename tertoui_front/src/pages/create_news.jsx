@@ -47,20 +47,21 @@ export class NewsForm extends Component {
     }
 
     getThemes() {
-        fetch("https://api.wazirx.com/sapi/v1/tickers/24hr", {
-            "method": "GET",
-            "headers": {
+        const axios = require('axios').default;
 
+        axios.get("http://localhost:8080/subjects", {
+            headers: {
+                'Access-Control-Allow-Origin' : 'Allow'
             }
         })
-            .then(response => response.json())
+            .then(response => response.data)
             .then(response => {
                 console.log("resp : ", response)
                 //var parsedResp = Object.keys(response.rates);
 
-                response.slice(0, 10).map((postData) => {
+                response.map((postData) => {
                     console.log(postData.symbol);
-                    var obj = {'id': postData.baseAsset, 'name': postData.symbol};
+                    var obj = {'id': postData.id, 'name': postData.subject};
                     this.setState({
                         themes: [...this.state.themes, obj]
                     });

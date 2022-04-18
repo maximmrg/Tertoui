@@ -21,7 +21,7 @@ export class LoginPage extends Component {
 
         super(props)
         this.state = {
-            login: '',
+            email: '',
             password: '',
         }
         this.handleChange= this.handleChange.bind(this)
@@ -40,7 +40,20 @@ export class LoginPage extends Component {
         e.preventDefault();
         const data = JSON.stringify(this.state)
         console.log(data)
-        UserProfile.createSession('', this.state.login, this.state.login);
+
+        fetch("http://localhost:8080/users/login", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'  },
+            body: data
+        }).then(response => response)
+        .then(response => {
+            console.log("resp : ", response);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+        UserProfile.createSession('', this.state.email, this.state.email);
               
         this.props.login();
     }
@@ -49,7 +62,7 @@ export class LoginPage extends Component {
         return <div className='container border border-primary rounded mt-5 p-3 App bg-light'>
             <form onSubmit={this.handleSubmit}>
             <h1>Se connecter</h1>
-            <Field name="login" value={this.state.login} onChange={this.handleChange} type='text'>Login</Field>
+            <Field name="email" value={this.state.email} onChange={this.handleChange} type='text'>email</Field>
             <Field name="password" value={this.state.password} onChange={this.handleChange} type='password'>Password</Field>
             
             <div className='form-group mt-3'>
