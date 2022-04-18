@@ -25,7 +25,7 @@ export class CreateAccount extends Component {
     handleSubmit (e){
         e.preventDefault();
         const dataJSON = JSON.stringify(this.state)
-        console.log(dataJSON)
+        //console.log(dataJSON)
 
         fetch("http://localhost:8080/users", {
             method: "POST",
@@ -33,7 +33,7 @@ export class CreateAccount extends Component {
             body: dataJSON
         }).then(response => response)
         .then(response => {
-            console.log("resp : ", response);
+            //console.log("resp : ", response);
         })
         .catch(err => {
             console.log(err);

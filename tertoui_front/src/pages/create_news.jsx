@@ -6,9 +6,9 @@ import UserProfile from '../UserProfile'
 class Field extends Component {
 
     render() {
-        const { name, value, onChange } = this.props
+        const { name, value, onChange, children } = this.props
         return <div className="form-group mt-3">
-            <label htmlFor={name}>Titre</label>
+            <label htmlFor={name}>{children}</label>
             <input type="text" value={value} onChange={onChange} id={name} name={name} className="form-control" />
         </div>
     }
@@ -31,11 +31,11 @@ export class NewsForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            titre: '',
-            article: '',
+            title: '',
+            content: '',
             author: UserProfile.getPseudo(),
-            themes: [{ id: 1, name: 'Politique' }, { id: 2, name: 'Economie' }, { id: 3, name: 'Guerre' }],
-            theme: ''
+            themes: [],
+            subject: ''
         };
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -56,19 +56,14 @@ export class NewsForm extends Component {
         })
             .then(response => response.data)
             .then(response => {
-                console.log("resp : ", response)
-                //var parsedResp = Object.keys(response.rates);
+                //console.log("resp : ", response)
 
                 response.map((postData) => {
-                    console.log(postData.symbol);
                     var obj = {'id': postData.id, 'name': postData.subject};
                     this.setState({
                         themes: [...this.state.themes, obj]
                     });
-                })
-                // this.setState({
-                //     test: response
-                // })                
+                })              
             })
             .catch(err => {
                 console.log(err);
@@ -76,24 +71,40 @@ export class NewsForm extends Component {
     }
 
     handleChange(e) {
-        console.log(e)
         const name = e.target.name
         this.setState({
             [name]: e.target.value,
-            theme: e.target.value
+            subject: e.target.value
         })
     }
 
     handleSelectThemeChange(e) {
         this.setState({
-            theme: e.target.value
+            subject: e.target.value
         })
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const data = JSON.stringify(this.state)
-        console.log(data)
+        //console.log(data)
+
+        fetch("http://localhost:8080/news", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin' : '*'
+            },
+            body: data
+        })
+        .then(response => response.data)
+        .then(response => {
+            //console.log("resp : ", response);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
     }
 
     render() {
@@ -101,16 +112,16 @@ export class NewsForm extends Component {
         return <div className='container App bg-light mt-3 border rounded p-3 border-info'>
             <form onSubmit={this.handleSubmit}>
                 <h1>Votre article</h1>
-                <Field name="titre" value={this.state.titre} onChange={this.handleChange}>Titre</Field>
+                <Field name="title" value={this.state.title} onChange={this.handleChange}>Titre</Field>
 
-                <TextAreaField name="article" value={this.state.article} onChange={this.handleChange}>Article</TextAreaField>
+                <TextAreaField name="content" value={this.state.content} onChange={this.handleChange}>Article</TextAreaField>
 
                 <div className='row m-3'>
                     <div className='col-1 mt-2'>
                         Sujet :
                     </div>
                     <div className='col-3'>
-                        <select className='form-select' name={this.state.theme} id={this.state.theme} onChange={this.handleSelectThemeChange}>{
+                        <select className='form-select' name={this.state.subject} id={this.state.subject} onChange={this.handleSelectThemeChange}>{
                             this.state.themes?.map((item, i) =>
                                 <option key={item.id} value={item.id}>{item.name}</option>)
                         }

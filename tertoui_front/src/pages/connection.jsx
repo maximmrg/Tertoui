@@ -2,6 +2,9 @@ import React from 'react';
 import { Component } from 'react';
 import UserProfile from '../UserProfile';
 import Navigation from '../Navigation.js';
+import { useNavigate } from "react-router-dom";
+import { Route, Redirect, Navigate } from 'react-router';
+
 // import Cookies from 'universal-cookie';
 
 class Field extends Component {
@@ -17,8 +20,6 @@ class Field extends Component {
 export class LoginPage extends Component {
 
     constructor (props) {
-
-
         super(props)
         this.state = {
             email: '',
@@ -39,7 +40,7 @@ export class LoginPage extends Component {
     handleSubmit (e) {
         e.preventDefault();
         const data = JSON.stringify(this.state)
-        console.log(data)
+        //console.log(data)
 
         fetch("http://localhost:8080/users/login", {
             method: "POST",
@@ -47,7 +48,7 @@ export class LoginPage extends Component {
             body: data
         }).then(response => response)
         .then(response => {
-            console.log("resp : ", response);
+            //console.log("resp : ", response);
         })
         .catch(err => {
             console.log(err);
