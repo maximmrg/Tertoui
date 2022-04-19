@@ -3,7 +3,7 @@
 import {ReactSession} from 'react-client-session';
 
 var UserProfile = (function() {
-    ReactSession.setStoreType("Cookie");
+    ReactSession.setStoreType("localStorage");
     var isActive = false;
 
     var email = "";

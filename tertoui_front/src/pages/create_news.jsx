@@ -40,6 +40,7 @@ export class NewsForm extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleSelectThemeChange = this.handleSelectThemeChange.bind(this)
+        this.getThemes = this.getThemes.bind(this)
     }
 
     componentDidMount() {

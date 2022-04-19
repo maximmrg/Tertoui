@@ -47,7 +47,7 @@ export class ListNews extends Component {
     render() {
         return <div className='container App'>
             {this.state.news.map(item => {
-                return(<News title={item.title} author={item.author} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);
+                return(<News id={item.id} title={item.title} author={item.author} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);
             })}
         </div>
     }
