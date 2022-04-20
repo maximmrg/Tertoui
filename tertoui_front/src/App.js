@@ -74,10 +74,6 @@ class App extends Component {
 
   login = () => {
     this.setState({ isLoggedIn: true, pseudo: UserProfile.getPseudo(), });
-
-    const navigate = useNavigate();
-
-    return <Navigate to="/" />
   };
 
   logout = () => {

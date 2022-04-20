@@ -106,6 +106,7 @@ class BtnFavorite extends Component {
         super(props)
 
         this.state = {
+            textBtn: 'Favorite',
             idUser: this.props.idUser,
             idNew: this.props.idNew
         };
@@ -134,7 +135,7 @@ class BtnFavorite extends Component {
 
     render() {
         return <>
-            <button className='btn btn-info' onClick={this.favNew}>Follow</button>
+            <button className='btn btn-info' onClick={this.favNew}>{this.state.textBtn}</button>
         </>
     }
 }

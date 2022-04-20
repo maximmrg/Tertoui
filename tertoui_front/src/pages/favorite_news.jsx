@@ -42,15 +42,20 @@ export class Favorite_news extends Component {
             //         news: [...this.state.news, postData]
             //     });
             // });
+            this.getNew("1");
         })
         .catch(err => {
             console.log(err);
         });
     }
 
+    getNew(id){
+
+    }
+
     render(){
         return <>
-            <div className='container App'>
+            <div className='container App mt-3'>
                 <h2>Your favorite news</h2>
             {this.state.news.map(item => {
                 return(<News id={item.id} title={item.title} author={item.author} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);

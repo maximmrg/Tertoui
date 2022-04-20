@@ -1,46 +1,65 @@
-import React, { ReactFragment } from 'react';
+import React, { Component, ReactFragment } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
+import carousel_bg from '../assets/grey-gradient-background.jpg';
 
-function NewsCarousel() {
+export class NewsCarousel extends Component {
 
-    return <div style={{ display: 'block', width: 700, padding: 30 }}>
-        <Carousel>
-            <Carousel.Item interval={5000}>
-                <img
-                    className="d-block w-100"
-                    src="https://media.geeksforgeeks.org/wp-content/uploads/20210425122739/2-300x115.png"
-                    alt="News 1"
-                    variant="dark"
-                />
-                <Carousel.Caption>
-                    <h3>News 1</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item interval={5000}>
-                <img
-                    className="d-block w-100"
-                    src="https://media.geeksforgeeks.org/wp-content/uploads/20210425122739/2-300x115.png"
-                    alt="News 2"
-                />
-                <Carousel.Caption>
-                    <h3>News 2</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item interval={5000}>
-                <img
-                    className="d-block w-100"
-                    src="https://media.geeksforgeeks.org/wp-content/uploads/20210425122739/2-300x115.png"
-                    alt="News 3"
-                />
-                <Carousel.Caption>
-                    <h3>News 3</h3>
-                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-        </Carousel>
-    </div>
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            news: []
+        }
+    }
+
+    componentDidMount() {
+        this.getNews();
+    }
+
+    getNews() {
+        const axios = require('axios').default;
+
+        axios.get("http://localhost:8080/news", {
+            headers: {
+                'Access-Control-Allow-Origin': 'Allow'
+            }
+        })
+            .then(response => response.data)
+            .then(response => {
+                response.map((postData) => {
+                    this.setState({
+                        news: [...this.state.news, postData]
+                    });
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    render() {
+        return <>
+            <div style={{ display: 'block', padding: 30 }}>
+                <Carousel>
+                    {this.state.news.map(item => {
+                        return (
+                            <Carousel.Item interval={5000}>
+                                <img
+                                    className="d-block w-100"
+                                    src={carousel_bg}
+                                    alt={item.title}
+                                    height="250"
+                                    variant="dark"
+                                />
+                                <Carousel.Caption>
+                                    <h3>{item.title}</h3>
+                                    <p>{item.content}</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        );
+                    })}
+                </Carousel>
+            </div>
+        </>
+    }
 }
-
-export default NewsCarousel;
