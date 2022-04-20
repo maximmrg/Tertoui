@@ -4,7 +4,7 @@ import React from 'react';
 import { LoginPage } from './pages/connection';
 import { NewsForm } from './pages/create_news';
 import { Component } from 'react';
-import { BrowserRouter, Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Router, Route, Routes, Navigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Index from './pages/index';
 import { ListNews } from './pages/list_news';
@@ -12,6 +12,8 @@ import Navigation from './Navigation';
 import UserProfile from './UserProfile';
 import { CreateAccount } from './pages/create_account';
 import { ReactSession } from 'react-client-session';
+import { Follows } from './pages/follows';
+import { useNavigate } from 'react-router';
 
 // import Cookies from 'universal-cookie';
 import { PrivateRoute } from './components/PrivateRoute';
@@ -72,6 +74,10 @@ class App extends Component {
 
   login = () => {
     this.setState({ isLoggedIn: true, pseudo: UserProfile.getPseudo(), });
+
+    const navigate = useNavigate();
+
+    return <Navigate to="/" />
   };
 
   logout = () => {
@@ -81,6 +87,7 @@ class App extends Component {
 
   render() {
     return <>
+    <div>
       <Navigation isLoggedIn={this.state.isLoggedIn} logout={this.logout.bind(this)} pseudo={this.state.pseudo} />
 
       <Routes>
@@ -93,9 +100,11 @@ class App extends Component {
         </Route>
         <Route path='/news' element={<ListNews />}></Route>
         <Route path='/favorite_news' element={<Favorite_news/>}></Route>
+        <Route path='/follows' element={<Follows/>}></Route> 
         <Route path='/login' element={<LoginPage login={this.login.bind(this)} />}></Route>
         <Route path='/logon' element={<CreateAccount />}></Route>
       </Routes>
+      </div>
     </>
   }
 
