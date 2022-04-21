@@ -23,7 +23,7 @@ export function Followers (props) {
                 response.map((user) => {
                     getUserById(user);
                 })
-            })
+            });
 
             console.log(followers)
 
