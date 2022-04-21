@@ -11,51 +11,64 @@ export class News extends Component {
 
         this.state = {
             isLoggedIn: false,
-            isFav: false
-        };
+            isFav: false,
+            id: this.props.id,
+            listFav: [],
+            news: []
+        }
 
-        this.isFav = this.isFav.bind(this);
+        //this.isFav = this.isFav.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         ReactSession.setStoreType("localStorage");
 
         this.setState({
             isLoggedIn: ReactSession.get('isActive')
         });
+
+        await this.isFav(this.state.id);
     }
 
-    isFav(idNew) {
-        const axios = require('axios').default;
+    componentDidUpdate(){
+        this.render();
+    }
 
-        var res;
+    async isFav(idNew) {
+
+        const that = this;
+
+        const axios = require('axios').default;
 
         var url = "http://localhost:8080/news/" + idNew + "/favs";
 
-        axios.get(url, {
+        await axios.get(url, {
             headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
         })
             .then(response => response.data)
             .then(response => {
                 //console.log(response);
 
-                res = response;
-
-                const listFavs = response.map((fav) => {
-                    if (fav == ReactSession.get('id')) {                        
-                        return false;
+                response.map((fav) => {
+                    
+                    if (fav === ReactSession.get('id')) {
+                        this.setState({
+                            isFav: true,
+                        });
                     } else {
-                        //console.log("false");
                     }
                 }
                 );
+
+                //console.log(JSON.stringify(that.state));
+
             })
             .catch(err => {
                 console.log(err);
             })
 
-            //console.log(result);
-            return res;
+            //console.log(JSON.stringify(that.state));
+
     }
 
     render() {
@@ -64,14 +77,11 @@ export class News extends Component {
         var idUser = UserProfile.getId();
         var btnFollow = '';
         var btnFav = '';
-        if (this.state.isLoggedIn == true) {
-            var isFav = this.isFav(id);
-
-            console.log(isFav);
-
-            //console.log(isFav);
-            if (isFav) {
+        if (this.state.isLoggedIn === true) {
+            if (this.state.isFav) {
                 btnFollow = <BtnFollow idUser={idUser} idAuthor={authorId}></BtnFollow>
+            } else {
+                btnFollow = <BtnUnFollow idUser={idUser} idAuthor={authorId}></BtnUnFollow>
             }
 
             btnFav = <BtnFavorite idUser={idUser} idNew={id}></BtnFavorite>
@@ -147,6 +157,52 @@ class BtnFollow extends Component {
     }
 }
 
+class BtnUnFollow extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            textBtn: 'Follow',
+            idUser: this.props.idUser,
+            idAuthor: this.props.idAuthor,
+        };
+
+        this.followAuthor = this.followAuthor.bind(this);
+    }
+
+    componentDidMount() {
+        ReactSession.setStoreType("localStorage");
+    }
+
+    followAuthor() {
+        var url = "http://localhost:8080/users/" + this.state.idUser + "/follow/" + this.props.idAuthor;
+
+        fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(response => response.data)
+            .then(response => {
+
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+
+    render() {
+        const { children } = this.props
+        return <>
+            <button onClick={this.followAuthor} className='btn btn-success'>{this.state.textBtn}</button>
+        </>
+    }
+}
+
 class BtnFavorite extends Component {
 
     constructor(props) {
@@ -183,6 +239,46 @@ class BtnFavorite extends Component {
     render() {
         return <>
             <button className='btn btn-info' onClick={this.favNew}>{this.state.textBtn}</button>
+        </>
+    }
+}
+
+class BtnUnFavorite extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            textBtn: 'unFavorite',
+            idUser: this.props.idUser,
+            idNew: this.props.idNew
+        };
+
+        this.unFavNew = this.unFavNew.bind(this);
+    }
+
+    unFavNew() {
+        var url = "http://localhost:8080/users/" + this.state.idUser + "/favorites/" + this.props.idNew;
+
+        fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(response => response.data)
+            .then(response => {
+
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    render() {
+        return <>
+            <button className='btn btn-info' onClick={this.unFavNew}>{this.state.textBtn}</button>
         </>
     }
 }

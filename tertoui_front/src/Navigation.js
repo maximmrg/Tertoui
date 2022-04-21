@@ -28,7 +28,7 @@ class NavBarLoggedIn extends Component {
                                     <Link to="/favorite_news" className="nav-link">Favorite news</Link>
                                 </li>
                                 <li>
-                                    <Link to="/follows" className="nav-link">Follows</Link>
+                                    <Link to="/followers" className="nav-link">Followers</Link>
                                 </li>
                                 <li>
                                     <Link to="/news_form" className="nav-link">Write</Link>

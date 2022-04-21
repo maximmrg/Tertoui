@@ -64,7 +64,7 @@ export class LoginPage extends Component {
             .then(res => {
                 var statusResp = res[0];
                 var jsonResp = res[1];
-                console.log("resp : ", jsonResp);
+                //console.log("resp : ", jsonResp);
                 if (statusResp == 200) {
                     var username = jsonResp.username;
                     var id = jsonResp.id;

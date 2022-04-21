@@ -12,7 +12,7 @@ import Navigation from './Navigation';
 import UserProfile from './UserProfile';
 import { CreateAccount } from './pages/create_account';
 import { ReactSession } from 'react-client-session';
-import { Follows } from './pages/follows';
+import { Followers } from './pages/followers';
 import { useNavigate } from 'react-router';
 
 // import Cookies from 'universal-cookie';
@@ -98,7 +98,7 @@ class App extends Component {
         </Route>
         <Route path='/news' element={<ListNews />}></Route>
         <Route path='/favorite_news' element={<Favorite_news/>}></Route>
-        <Route path='/follows' element={<Follows/>}></Route> 
+        <Route path='/followers' element={<Followers/>}></Route> 
         <Route path='/login' element={<LoginPage login={this.login.bind(this)} />}></Route>
         <Route path='/logon' element={<CreateAccount />}></Route>
       </Routes>

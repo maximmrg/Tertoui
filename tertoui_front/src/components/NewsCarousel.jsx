@@ -22,7 +22,10 @@ export class NewsCarousel extends Component {
         axios.get("http://localhost:8080/news", {
             headers: {
                 'Access-Control-Allow-Origin': 'Allow'
-            }
+            },
+            params: {
+                _limit: 10
+            },
         })
             .then(response => response.data)
             .then(response => {
