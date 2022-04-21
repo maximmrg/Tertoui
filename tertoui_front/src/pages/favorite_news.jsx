@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { News } from '../components/NewsComponent';
+import { News } from '../components/NewsComponent2';
 import dateFormat from 'dateformat';
 import { ReactSession } from 'react-client-session';
 import UserProfile from '../UserProfile';
@@ -82,7 +82,7 @@ export class Favorite_news extends Component {
             <div className='container App mt-3'>
                 <h2>Your favorite news</h2>
                 {this.state.news.map(item => {
-                    return (<News id={item.id} title={item.title} author={item.author} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);
+                    return (<News id={item.id} title={item.title} author={item.author} authorId={item.authorId} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);
                 })}
             </div>
         </>
