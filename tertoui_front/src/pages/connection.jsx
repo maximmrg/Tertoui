@@ -55,16 +55,21 @@ export class LoginPage extends Component {
             method: "POST",
             headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
             body: data
-        }).then(response => response)
-            .then(response => {
-                //console.log("resp : ", response);
-                var statusResp = response.status;
+        }).then(response => {
+            const statusCode = response.status;
+            const respJson = response.json();
 
+            return Promise.all([statusCode, respJson]);
+        })
+            .then(res => {
+                var statusResp = res[0];
+                var jsonResp = res[1];
+                console.log("resp : ", jsonResp);
                 if (statusResp == 200) {
-                    UserProfile.createSession('', this.state.email, this.state.email);
+                    var username = jsonResp.username;
+                    var id = jsonResp.id;
+                    UserProfile.createSession(id, this.state.email, username, '');
                     this.props.login();
-
-                    //this.redirectAfterLogin();
                 } else {
                     this.setState({
                         messageErreur: 'Wrong Login or Password',
@@ -73,6 +78,9 @@ export class LoginPage extends Component {
             })
             .catch(err => {
                 console.log(err);
+                this.setState({
+                    messageErreur: 'Wrong Login or Password',
+                })
             });
     }
 

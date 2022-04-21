@@ -26,11 +26,13 @@ class App extends Component {
     ReactSession.setStoreType("localStorage");
 
     try {
+      ReactSession.get('id');
       ReactSession.get('login');
       ReactSession.get('isActive');
       ReactSession.get('pseudo');
     } catch (e) {
 
+      ReactSession.set('id', '');
       ReactSession.set('login', '');
       ReactSession.set('pseudo', '');
       ReactSession.set('isActive', false);
@@ -66,7 +68,7 @@ class App extends Component {
       pseudo: ReactSession.get('pseudo')
     })
 
-    UserProfile.setPseudo(ReactSession.get('login'));
+    UserProfile.createSession(ReactSession.get('id'), ReactSession.get('login'), ReactSession.get('pseudo'), '')
     UserProfile.setIsActive(ReactSession.get('isActive'));
 
     //this.makeAPICall();

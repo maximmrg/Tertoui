@@ -1,6 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import { ReactSession } from 'react-client-session';
+import UserProfile from '../UserProfile';
+
 
 export class News extends Component {
 
@@ -8,8 +10,11 @@ export class News extends Component {
         super(props);
 
         this.state = {
-            isLoggedIn: false
+            isLoggedIn: false,
+            isFav: false
         };
+
+        this.isFav = this.isFav.bind(this);
     }
 
     componentDidMount() {
@@ -20,14 +25,56 @@ export class News extends Component {
         });
     }
 
-    render() {
-        const {id, title, author, children, date } = this.props
+    isFav(idNew) {
+        const axios = require('axios').default;
 
+        var res;
+
+        var url = "http://localhost:8080/news/" + idNew + "/favs";
+
+        axios.get(url, {
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        })
+            .then(response => response.data)
+            .then(response => {
+                //console.log(response);
+
+                res = response;
+
+                const listFavs = response.map((fav) => {
+                    if (fav == ReactSession.get('id')) {                        
+                        return false;
+                    } else {
+                        //console.log("false");
+                    }
+                }
+                );
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+            //console.log(result);
+            return res;
+    }
+
+    render() {
+        const { id, title, author, children, date, authorId } = this.props
+
+        var idUser = UserProfile.getId();
         var btnFollow = '';
         var btnFav = '';
-        if(this.state.isLoggedIn == true){
-            btnFollow = <BtnFollow idUser="1" idAuthor="1"></BtnFollow>
-            btnFav = <BtnFavorite idUser="625d721b67a9b34a10e65612" idNew={id}></BtnFavorite>
+        if (this.state.isLoggedIn == true) {
+            var isFav = this.isFav(id);
+
+            console.log(isFav);
+
+            //console.log(isFav);
+            if (isFav) {
+                btnFollow = <BtnFollow idUser={idUser} idAuthor={authorId}></BtnFollow>
+            }
+
+            btnFav = <BtnFavorite idUser={idUser} idNew={id}></BtnFavorite>
         }
         return <div className='form-group border mt-3 bg-light rounded p-2'>
             <h3 htmlFor={title}>{title}</h3>
@@ -72,23 +119,23 @@ class BtnFollow extends Component {
         ReactSession.setStoreType("localStorage");
     }
 
-    followAuthor(){
+    followAuthor() {
         var url = "http://localhost:8080/users/" + this.state.idUser + "/follow/" + this.props.idAuthor;
 
         fetch(url, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin' : '*'
+                'Access-Control-Allow-Origin': '*'
             }
         })
-        .then(response => response.data)
-        .then(response => {
+            .then(response => response.data)
+            .then(response => {
 
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
 
@@ -102,7 +149,7 @@ class BtnFollow extends Component {
 
 class BtnFavorite extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -114,23 +161,23 @@ class BtnFavorite extends Component {
         this.favNew = this.favNew.bind(this);
     }
 
-    favNew(){
+    favNew() {
         var url = "http://localhost:8080/users/" + this.state.idUser + "/favorites/add/" + this.props.idNew;
 
         fetch(url, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin' : '*'
+                'Access-Control-Allow-Origin': '*'
             }
         })
-        .then(response => response.data)
-        .then(response => {
+            .then(response => response.data)
+            .then(response => {
 
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {

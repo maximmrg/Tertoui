@@ -35,7 +35,8 @@ export class NewsForm extends Component {
             content: '',
             author: UserProfile.getPseudo(),
             themes: [],
-            subject: ''
+            subject: '',
+            authorId: UserProfile.getId(),
         };
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)

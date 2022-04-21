@@ -6,6 +6,7 @@ var UserProfile = (function() {
     ReactSession.setStoreType("localStorage");
     var isActive = false;
 
+    var id = "";
     var email = "";
     var pseudo = "";
     var token = "";
@@ -19,15 +20,21 @@ var UserProfile = (function() {
     };
 
     //Initialize a session
-    var createSession = function(mail_param, pseudo_param, token_param){
+    var createSession = function(id_param, mail_param, pseudo_param, token_param){
         isActive = true;
+        id = id_param;
         email = mail_param;
         pseudo = pseudo_param;
         token = token_param;
 
-        ReactSession.set("login", pseudo);
+        ReactSession.set("id", id);
+        ReactSession.set("login", email);
         ReactSession.set("pseudo", pseudo);
         ReactSession.set("isActive", true);
+    };
+
+    var getId = function(){
+        return id;
     };
 
     var getMail = function(){
@@ -67,6 +74,7 @@ var UserProfile = (function() {
     };
 
     return{
+        getId: getId,
         getMail: getMail,
         setMail: setMail,
         getPseudo: getPseudo,

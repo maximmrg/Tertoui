@@ -33,6 +33,7 @@ export class ListNews extends Component {
         })
         .then(response => response.data)
         .then(response => {
+            //console.log(response);
             response.map((postData) => {
                 this.setState({
                     news: [...this.state.news, postData]
@@ -47,7 +48,7 @@ export class ListNews extends Component {
     render() {
         return <div className='container App'>
             {this.state.news.map(item => {
-                return(<News id={item.id} title={item.title} author={item.author} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);
+                return(<News id={item.id} title={item.title} author={item.author} authorId={item.authorId} date={dateFormat(item.releaseDate, 'dd/mm/yyyy hh:MM')}>{item.content}</News>);
             })}
         </div>
     }

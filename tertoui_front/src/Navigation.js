@@ -30,6 +30,9 @@ class NavBarLoggedIn extends Component {
                                 <li>
                                     <Link to="/follows" className="nav-link">Follows</Link>
                                 </li>
+                                <li>
+                                    <Link to="/news_form" className="nav-link">Write</Link>
+                                </li>
                             </ul>
                         </div>
                         <div className="d-flex">
@@ -73,6 +76,9 @@ class NavBarPublic extends Component {
                                     <Link to={{
                                         pathname: '/login',
                                     }} className="nav-link">Login</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to='/logon' className="nav-link">Logon</Link>
                                 </li>
                             </ul>
                         </div>
